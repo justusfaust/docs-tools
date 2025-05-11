@@ -1,0 +1,38 @@
+= Collection of Python Scripts for Generating AsciiDoc Documentation From Source Files
+
+TIP: Check link:example-repo-docs.adoc[] for example output of the python parser. +
+It was created by running link:app/py_parser.py[] on the repo root directory (`python3 ./app/py_parser.py . -e "^\." "\\__init__" --adoc-links --adoc-anchors -o example-repo-docs.adoc`).
+
+== Currently Implemented Parsers
+
+* Python (signatures of functions, classes and methods and their corresponding docstring)
+* SystemVerilog (instantiation template for each module and comments starting with keyword "docs_description")
+
+== Structure
+
+* `app/docs_parser.py` defines the `Parser` class
+** contains all methods required to recursively collect source files of a specified type starting from a base directory
+** contains an argument parser for command line arguments that can be expanded in derived classes if needed
+* `app/py_parser.py` and `app/sv_parser.py` are two exapmles of parsers based on the `Parser` class
+* the `templates` directory contains jinja2 templates used by the above-mentioned examples
+
+== Known Issues
+
+On github relative links to files in the generated adoc output only work when the generated adoc file is located in the repo root.
+On GitLab they get resolved correctly regardless of the location of the generated adoc file.
+
+== Hints on Implementing a New Parser
+
+Each class derived from `Parser` must implement:
+
+* the abstract property `target_file_extensions` -> return a list of str with file extensions the derived class can parse
+* the method `parse_file(abs_path)` -> parse file contents of given file (absolute path) and return dict of parsed values
+* the method `make_docs()` -> all steps required to generate the AsciiDoc documentation file corresponding to the targeted file type(s)
+
+Each class derived from `Parser` has access to the following methods:
+
+* `create_arg_parser` -> returns argparser with default parameters, can be used to add custom ones
+* `get_combined_ast` -> recursively searches specified directory for targeted files and parses each one using the `parse_file` method; returns a dict resebling the directory structure and file contents
+* `make_dir_tree` -> takes in dict created by `get_combined_ast` and creates a tree-like output that can be used in the documentation; it has the option to add relative links to each file and anchor links for later use in the template, both compatible with the GitLab AsciiDoc renderer
+* `render_file_template` -> renders given template with jinja2 using the provided template variables
+* `matches_any_regex` -> helper to check whether a list of provided regex filters matches anything in the provided data; uses python `regex` package for extended capabilities

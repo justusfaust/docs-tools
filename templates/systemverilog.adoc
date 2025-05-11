@@ -1,0 +1,35 @@
+__// last generated: {{ now }}__ +
+ +
+
+== SystemVerilog Modules
+
+[subs="+macros"]
+----
+{{ dir_tree }}
+----
+
+
+{% for file in list_of_files %}
+== [[src-{{ file.file_idx }}]] {{ file.basename }}
+
+{% if file.docs is not none %}
+[source]
+----
+{{ file.docs }}
+----
+{% else %}
+[red]#*FIXME*#: Add documentation!
+{% endif %}
+
+{% for mod in file.modules %}
+[source,python]
+{# format as "python" for better gitlab syntax highlighting #}
+----
+{{ mod.instance }}
+----
+
+(link:{{ file.rel_path }}[jump to implementation]) +
+ +
+
+{% endfor %}
+{% endfor %}

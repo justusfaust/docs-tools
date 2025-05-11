@@ -1,0 +1,23 @@
+NOTICE
+
+This project relies on third-party software components. Below is a list of those components and their respective licenses.
+
+regex
+License: Apache License 2.0
+URL: https://github.com/mrabarnett/mrab-regex
+Author: Matthew Barnett
+
+Jinja
+License: BSD 3-Clause License
+URL: https://github.com/pallets/jinja
+Author: Armin Ronacher and contributors (Pallets)
+
+tzlocal
+License: MIT License
+URL: https://github.com/regebro/tzlocal
+Author: Lennart Regebro
+
+License Notes:
+Please refer to the full text of each license for more details on terms and conditions.
+
+This project itself is licensed under the MIT License (see LICENSE file).

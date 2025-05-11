@@ -1,0 +1,93 @@
+__// last generated: {{ now }}__ +
+ +
+
+== Python Functions and Classes
+
+[subs="+macros"]
+----
+{{ dir_tree }}
+----
+
+
+{% for file in list_of_files %}
+== [[src-{{ file.file_idx }}]] {{ file.basename }}
+
+{% if file.functions != [] %}
+=== Functions
+
+{% for func in file.functions %}
+* *{{ func.name }}*
++
+{% if func.docstring is not none %}
+[source]
+----
+{{ func.docstring }}
+----
+{% else %}
+[red]#*FIXME*#: Add documentation!
+{% endif %}
++
+[source,python]
+----
+{{ func.signature }}
+----
++
+(link:{{ file.rel_path }}#L{{ func.lineno_start }}-L{{ func.lineno_end }}[jump to definition]) +
+ +
+
+{% endfor %}
+{% endif %}
+
+{% if file.classes != [] %}
+=== Classes
+
+{% for cls in file.classes %}
+* *{{ cls.name }}*
++
+{% if cls.docstring is not none %}
+[source]
+----
+{{ cls.docstring }}
+----
+{% else %}
+[red]#*FIXME*#: Add documentation!
+{% endif %}
++
+[source,python]
+----
+{{ cls.signature }}
+----
++
+(link:{{ file.rel_path }}#L{{ cls.lineno_start }}-L{{ cls.lineno_end }}[jump to definition]) +
+ +
+{% if cls.methods != [] %}
++
+*Methods*
+{% for method in cls.methods %}
+
+** *{{ method.name }}*
++
+{% if method.docstring is not none %}
+[source]
+----
+{{ method.docstring }}
+----
+{% else %}
+[red]#*FIXME*#: Add documentation!
+{% endif %}
++
+[source,python]
+----
+{{ method.signature }}
+----
++
+(link:{{ file.rel_path }}#L{{ method.lineno_start }}-L{{ method.lineno_end }}[jump to definition]) +
+ +
+
+{% endfor %}
+{% else %}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
